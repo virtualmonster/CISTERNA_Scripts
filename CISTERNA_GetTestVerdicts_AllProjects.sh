@@ -31,7 +31,9 @@ for PROJECT_ID in $(echo $PROJECTS_LIST | jq -r '.id'); do
     echo "Project ID: $PROJECT_ID"
   # echo "Details: $PROJECT_DETAILS"
   # echo "Results: $(echo $PROJECT_DETAILS | jq -j '.results[] | "Test: ", .name, ", Started at: ", .startDate, ", Verdict: ", .verdict, "\n"')"
+
   # Pretty format the date instead of using UTC
-    echo "Results: $(echo $PROJECT_DETAILS | jq -j '.results[] | "Test: ", .name, ", Started at: ", (.startDate / 1000 | strftime("%Y-%m-%dT%H:%M:%SZ")), ", Verdict: ", .verdict, "\n"')"
+    echo "Results: $(echo $PROJECT_DETAILS | jq -r '.results[] | "Test: " + .name + ", Started at: " + (.startDate / 1000 | strftime("%Y-%m-%dT%H:%M:%SZ")) + ", Verdict: " + .verdict + "\n" + "Report: " + "https://10.0.2.15.nip.io" + (.reports[].href? // "")')"
+
   echo "-------------------------"
 done
